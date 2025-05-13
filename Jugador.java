@@ -1,21 +1,28 @@
 package Practica_6;
-
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Jugador extends Entidad {
     private int dy = 0;
-    private boolean izquierda = false, derecha = false, enSuelo = false, usoDobleSalto = false;
+    private boolean izquierda = false, derecha = false, enSuelo = false, dash = false;
+    private boolean cooldownDash = true;
+    private boolean cooldownDobleSalto = true;
+    private int direccionActual = 0;
 
     public Jugador(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
     }
 
     public void actualizar() {
-        if (izquierda) x -= 4;
-        if (derecha) x += 4;
-        dy += 1;
-        y += dy;
+        if(!dash){
+            if (izquierda) x -= 6;
+            if (derecha) x += 6;
+            dy += 1;
+            y += dy;
+        }
     }
 
     public void verificarColisiones(List<Entidad> entidades) {
@@ -32,29 +39,91 @@ public class Jugador extends Entidad {
         }
     }
 
+    public void fisicaSlime(List<Entidad> entidades) {
+        enSuelo = false;
+        for (Entidad e : entidades) {
+            if (e instanceof Plataforma && getRect().intersects(e.getRect())) {
+                y = e.getRect().y - alto;
+                dy = 0;
+                enSuelo = true;
+            }
+            if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
+                //region dy para fisica Slime
+                dy = 0;
+                //endregion
+
+                //region dy para trampolin
+//                dy = -20;
+                //endregion
+            }
+        }
+    }
+
     public void dibujar(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect(x, y, ancho, alto);
     }
 
-    public void saltar() {
-        if (enSuelo) dy = -15;
-        usoDobleSalto = false;
+
+    public void setIzquierda(boolean b) {
+        izquierda = b;
+        if(b){
+            direccionActual = 1;
+            derecha = false;
+        }
+
+    }
+    public void setDerecha(boolean b) {
+        derecha = b;
+        if(b) direccionActual = 2;
     }
 
-    //Corregir doble salto
-    /* 
-    public void dobleSalto(){
-        if(dy >= -15 && dy <= -12 && usoDobleSalto == false ){
-            dy = -30;
-            usoDobleSalto = true;
+    public void saltar() {
+        if (enSuelo) {
+            dy = -15;
+            cooldownDobleSalto = true;
+        }
+        else if (cooldownDobleSalto) {
+            dy = -15;
+            cooldownDobleSalto = false;
         }
     }
-        */
 
-    public void setIzquierda(boolean b) { izquierda = b; }
-    public void setDerecha(boolean b) { derecha = b; }
+    public void setDash() {
+        if (!dash && cooldownDash){
+            dash = true;
+            cooldownDash = false;
+
+            int direccion = (direccionActual == 1) ? -10 : 10; // paso por frame
+            int repeticiones = 10; // mover 10 veces (total 100 px)
+
+            Timer dashTimer = new Timer(10, null); // 10 ms entre cada paso
+
+            dashTimer.addActionListener(new ActionListener() {
+                int pasos = 0;
+
+                public void actionPerformed(ActionEvent e) {
+                    x += direccion; // aquí sí se mueve
+                    pasos++;
+                    if (pasos >= repeticiones) {
+                        dashTimer.stop();
+                        dash = false;
+                    }
+                }
+            });
+
+            dashTimer.start();
+
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+
+                public void run() {
+                    cooldownDash = true;
+                }
+            },500);
+        }
+    }
 
     public int getX() { return x; }
     public int getY() { return y; }
 }
+

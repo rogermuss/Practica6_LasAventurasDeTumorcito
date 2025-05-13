@@ -43,7 +43,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void actionPerformed(ActionEvent e) {
         jugador.actualizar();
-        jugador.verificarColisiones(entidades);
+//        jugador.verificarColisiones(entidades);
+        // Pruebas de distintas ficicas de colision
+        jugador.fisicaSlime(entidades); // - Slime
+
         repaint();
         //Agregar verificacion para actualizar movimientos del enemigo por patron y a su vez
         for(Entidad ent:entidades){
@@ -61,10 +64,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) jugador.setIzquierda(true);
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) jugador.setDerecha(true);
+        int direcion = 0;
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            jugador.setIzquierda(true);
+            direcion = 1;
+        };
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            jugador.setDerecha(true);
+            direcion = 2;
+        }
         if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar();
-        //\\if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.dobleSalto();
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.setDash();
         if (e.getKeyCode() == KeyEvent.VK_S) archivo.guardar(jugador);
     }
 
