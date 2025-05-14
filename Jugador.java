@@ -46,6 +46,38 @@ public class Jugador extends Entidad {
                 dy = 0;
                 enSuelo = true;
             }
+            if (e instanceof PlataformaFija && getRect().intersects(e.getRect())) {
+                Rectangle plataforma = e.getRect();
+                Rectangle jugador = getRect();
+
+                int dx = (jugador.x + jugador.width / 2) - (plataforma.x + plataforma.width / 2);
+               int dy = (jugador.y + jugador.height / 2) - (plataforma.y + plataforma.height / 2);
+
+    int anchoSolapado = (jugador.width + plataforma.width) / 2 - Math.abs(dx);      
+    int altoSolapado = (jugador.height + plataforma.height) / 2 - Math.abs(dy);
+
+    if (anchoSolapado < altoSolapado) {
+        // Colisión horizontal
+        if (dx > 0) {
+            // Chocando desde la derecha
+            x = plataforma.x + plataforma.width;
+        } else {
+            // Chocando desde la izquierda
+            x = plataforma.x - jugador.width;
+        }
+    } else {
+        // Colisión vertical
+        if (dy > 0) {
+            // Chocando desde abajo (subió por error)
+            y = plataforma.y + plataforma.height;
+        } else {
+            // Cayendo desde arriba
+            y = plataforma.y - jugador.height;
+            velocidadY = 0; // Detener caída si usas gravedad
+        }
+    }
+}
+
             if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
                 x = 50;
                 y = 500;

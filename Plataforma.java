@@ -4,9 +4,8 @@ import java.awt.*;
 
 public class Plataforma extends Entidad {
     boolean puedeEscalarse;
-    public Plataforma(int x, int y, int ancho, int alto, boolean puedeEscalarse) {
+    public Plataforma(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
-        this.puedeEscalarse = puedeEscalarse;
     }
 
     public void dibujar(Graphics g) {
