@@ -9,6 +9,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(new GamePanel());
         setBackground(Color.LIGHT_GRAY);
+        setResizable(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
