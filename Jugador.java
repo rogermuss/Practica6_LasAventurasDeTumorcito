@@ -23,7 +23,7 @@ public class Jugador extends Entidad {
         super(x, y, ancho, alto);
 
         try {
-            spriteActual = ImageIO.read(new File("C:\\Users\\dlara\\Pictures\\Skin\\prota.png"));
+            spriteActual = ImageIO.read(new File("C:\\Users\\rogel\\OneDrive\\Escritorio\\Sprite\\pipopo.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
