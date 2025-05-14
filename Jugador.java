@@ -1,8 +1,13 @@
 package Practica_6;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Jugador extends Entidad {
@@ -12,8 +17,16 @@ public class Jugador extends Entidad {
     private boolean cooldownDobleSalto = true;
     private int direccionActual = 0;
 
+    private BufferedImage spriteActual;
+
     public Jugador(int x, int y, int ancho, int alto) {
-        super(x, y, ancho, alto);
+        super(x, y, ancho, alto, false);
+
+        try {
+            spriteActual = ImageIO.read(new File("C:\\Users\\dlara\\Pictures\\Skin\\prota.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void actualizar() {
@@ -60,8 +73,14 @@ public class Jugador extends Entidad {
                 }
             }
 
-            if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
+            if (e instanceof EnemigoTerrestre && getRect().intersects(e.getRect())) {
                 x = 50; y = 500; dy = 0;
+            }
+            if(e instanceof EnemigoVolador && getRect().intersects(e.getRect())){
+                x = 50; y = 500; dy = 0;
+            }
+            if (e instanceof EnemigoTrampa && getRect().intersects(e.getRect())) {
+                dy = -20;
             }
         }
     }
@@ -87,8 +106,20 @@ public class Jugador extends Entidad {
     }
 
     public void dibujar(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(x, y, ancho, alto);
+        if (spriteActual != null) {
+            g.drawImage(spriteActual, x, y, ancho, alto, null);
+        } else {
+            g.setColor(Color.BLUE);
+            g.fillRect(x, y, ancho, alto);
+        }
+    }
+
+    public void cambiarSprite(String rutaSprite) {
+        try {
+            spriteActual = ImageIO.read(new File(rutaSprite));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

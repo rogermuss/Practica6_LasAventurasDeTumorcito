@@ -11,8 +11,8 @@ public class EnemigoTrampa extends Enemigo {
 
     @Override
     public void dibujar(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillArc(x,y,ancho,alto,100,100);
+        g.setColor(Color.YELLOW);
+        g.fillRect(x, y, ancho, alto);
     }
     
 }

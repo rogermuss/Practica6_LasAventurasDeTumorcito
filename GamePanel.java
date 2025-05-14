@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private final int ANCHO_VENTANA = 854;
     private final int ALTO_VENTANA = 480;
 
-    private final int TAMANO_JUGADOR = 60;
+    private final int TAMANO_JUGADOR = 40;
     private final int TAMANO_ENEMIGO = 40;
 
     private final int ALTURA_SUELO = ALTO_VENTANA - 40;
@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        jugador = new Jugador(60, ALTURA_SUELO - TAMANO_JUGADOR, TAMANO_JUGADOR, TAMANO_JUGADOR);
+        jugador = new Jugador(60, ALTURA_SUELO - TAMANO_JUGADOR, TAMANO_JUGADOR+10, TAMANO_JUGADOR);
         entidades = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
@@ -92,8 +92,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         int limiteDerecho = ANCHO_VENTANA - ANCHO_PARED;
 
 
-        enemigoMovil = new EnemigoVolador(posXVolador, posYVolador, tamanoVolador, tamanoVolador,
-                limiteIzquierdo, limiteDerecho);
+        enemigoMovil = new EnemigoVolador(posXVolador, posYVolador, tamanoVolador, tamanoVolador, limiteIzquierdo, limiteDerecho);
         entidades.add(enemigoMovil);
 
 
@@ -120,7 +119,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         if (enemigoMovil != null) {
             enemigoMovil.actualizar();
         }
-
 
         jugador.verificarColisiones(entidades);
         manejarColisionesParedes();
@@ -161,6 +159,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) jugador.setIzquierda(true);
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) jugador.setDerecha(true);
         if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar();
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.setDash();
         if (e.getKeyCode() == KeyEvent.VK_S) archivo.guardar(jugador);
 
 
