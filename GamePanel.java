@@ -11,9 +11,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private ArrayList<Entidad> entidades;
     private ArchivoJuego archivo;
 
-    // Tamaño de la ventana
+    // Referencia al enemigo volador para actualizarlo
+    private EnemigoVolador enemigoMovil;
+
     private final int ANCHO_VENTANA = 854;
     private final int ALTO_VENTANA = 480;
+
+    private final int TAMANO_JUGADOR = 60;
+    private final int TAMANO_ENEMIGO = 40;
+
+    private final int ALTURA_SUELO = ALTO_VENTANA - 40;
+    private final int ALTURA_PLATAFORMA_2 = ALTO_VENTANA - 280;
+
+    private final int ANCHO_PARED = 40;
 
     public GamePanel() {
         setPreferredSize(new Dimension(ANCHO_VENTANA, ALTO_VENTANA));
@@ -21,34 +31,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        jugador = new Jugador(100, 7, 60, 40); // Ajusté la posición inicial
+        jugador = new Jugador(60, ALTURA_SUELO - TAMANO_JUGADOR, TAMANO_JUGADOR, TAMANO_JUGADOR);
         entidades = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
-        // Ajustar posiciones y tamaños para la nueva dimensión
-
-        // Suelo: ajustado a lo ancho de la ventana
-        entidades.add(new Plataforma(0, ALTO_VENTANA - 50, ANCHO_VENTANA, 20, false));
-
-        // Plataformas flotantes: ajustar posición vertical
-        entidades.add(new Plataforma(200, ALTO_VENTANA - 200, 120, 20, true));
-        entidades.add(new Plataforma(500, ALTO_VENTANA - 200, 120, 20, true));
-
-        // Trampa: ajustar posición vertical
-        entidades.add(new EnemigoTrampa(200, ALTO_VENTANA - 80, 100, 80));
-
-        // Enemigos terrestres: ajustar posición vertical
-        entidades.add(new EnemigoTerrestre(300, ALTO_VENTANA - 90, 40, 40));
-        for(int i = 1; i<=5; i++){ // Reduje cantidad de enemigos para que quepan
-            entidades.add(new EnemigoTerrestre(300+50*i, ALTO_VENTANA - 90, 40, 40));
-        }
-
-        // Enemigo volador: ajustar posición vertical
-        entidades.add(new EnemigoVolador(500, ALTO_VENTANA - 300, 40, 40));
-
-        // Paredes laterales: ajustar altura al tamaño de la ventana
-        entidades.add(new Plataforma(0, 0, 40, ALTO_VENTANA, false)); // Pared izquierda
-        entidades.add(new Plataforma(ANCHO_VENTANA - 40, 0, 40, ALTO_VENTANA, false)); // Pared derecha
+        crearNivel();
 
         archivo.cargar(jugador);
 
@@ -56,40 +43,138 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer.start();
     }
 
-    public void actionPerformed(ActionEvent e) {
-        jugador.actualizar();
-        jugador.verificarColisiones(entidades);
+    private void crearNivel() {
 
-        // Limitar al jugador para que no salga de la pantalla
-        if (jugador.x < 40) jugador.x = 40;
-        if (jugador.x + 40 > ANCHO_VENTANA - 40) jugador.x = ANCHO_VENTANA - 80;
-        if (jugador.y > ALTO_VENTANA + 100) { // Si cae muy abajo, reposicionar
-            jugador.x = 100;
-            jugador.y = 7;
+        entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA, false));
+
+
+        entidades.add(new Plataforma(ANCHO_PARED, ALTURA_SUELO, ANCHO_VENTANA - 2*ANCHO_PARED, 40, false));
+
+
+        int posXEnemigo1 = 120;
+        int posXEnemigo2 = posXEnemigo1 + TAMANO_ENEMIGO + 200;
+        int posXEnemigo3 = posXEnemigo2 + TAMANO_ENEMIGO + 200;
+
+        entidades.add(new EnemigoTerrestre(posXEnemigo1, ALTURA_SUELO - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+        entidades.add(new EnemigoTerrestre(posXEnemigo2, ALTURA_SUELO - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+        entidades.add(new EnemigoTerrestre(posXEnemigo3, ALTURA_SUELO - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+
+
+        int anchoPlatforma2 = 600;
+        entidades.add(new Plataforma(ANCHO_PARED, ALTURA_PLATAFORMA_2, anchoPlatforma2, 20, false));
+
+
+        int posXTriangulo1 = 150;
+        int posXTriangulo2 = posXTriangulo1 + TAMANO_ENEMIGO + 100;
+        int posXTriangulo3 = posXTriangulo2 + TAMANO_ENEMIGO + 100;
+        int posXTriangulo4 = posXTriangulo3 + TAMANO_ENEMIGO + 100;
+
+        entidades.add(new EnemigoTrampa(posXTriangulo1, ALTURA_PLATAFORMA_2 - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+        entidades.add(new EnemigoTrampa(posXTriangulo2, ALTURA_PLATAFORMA_2 - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+        entidades.add(new EnemigoTrampa(posXTriangulo3, ALTURA_PLATAFORMA_2 - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+        entidades.add(new EnemigoTrampa(posXTriangulo4, ALTURA_PLATAFORMA_2 - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO));
+
+
+        int posXPlataformaSubida = anchoPlatforma2 + 60;
+        int anchoPlataformaSubida = 60;
+        entidades.add(new Plataforma(posXPlataformaSubida, ALTURA_PLATAFORMA_2 + 70, anchoPlataformaSubida, 20, false));
+
+
+        int tamanoVolador = 30;
+
+
+        int posXVolador = posXPlataformaSubida + anchoPlataformaSubida + 10;
+        int posYVolador = ALTURA_PLATAFORMA_2 + 70 - tamanoVolador - 10;
+
+
+        int limiteIzquierdo = posXPlataformaSubida + anchoPlataformaSubida;
+        int limiteDerecho = ANCHO_VENTANA - ANCHO_PARED;
+
+
+        enemigoMovil = new EnemigoVolador(posXVolador, posYVolador, tamanoVolador, tamanoVolador,
+                limiteIzquierdo, limiteDerecho);
+        entidades.add(enemigoMovil);
+
+
+    }
+
+    private void manejarColisionesParedes() {
+        Rectangle jugadorRect = jugador.getRect();
+
+        Rectangle paredIzquierda = new Rectangle(0, 0, ANCHO_PARED, ALTO_VENTANA);
+        if (jugadorRect.intersects(paredIzquierda)) {
+            jugador.x = ANCHO_PARED;
+        }
+
+        Rectangle paredDerecha = new Rectangle(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA);
+        if (jugadorRect.intersects(paredDerecha)) {
+            jugador.x = ANCHO_VENTANA - ANCHO_PARED - TAMANO_JUGADOR;
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        jugador.actualizar();
+
+        if (enemigoMovil != null) {
+            enemigoMovil.actualizar();
+        }
+
+
+        jugador.verificarColisiones(entidades);
+        manejarColisionesParedes();
+
+
+        if (jugador.y > ALTO_VENTANA + 100) {
+            jugador.x = 60;
+            jugador.y = ALTURA_SUELO - TAMANO_JUGADOR;
+            try {
+                java.lang.reflect.Field dyField = jugador.getClass().getDeclaredField("dy");
+                dyField.setAccessible(true);
+                dyField.set(jugador, 0);
+            } catch (Exception ex) {
+
+            }
         }
 
         repaint();
-
-        for(Entidad ent:entidades){
-            if(ent instanceof Enemigo){
-            }
-        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        jugador.dibujar(g);
+
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, ANCHO_VENTANA, ALTO_VENTANA);
+
+
         for (Entidad ent : entidades) {
             ent.dibujar(g);
         }
+
+
+        jugador.dibujar(g);
     }
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) jugador.setIzquierda(true);
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) jugador.setDerecha(true);
         if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar();
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.setDash();
         if (e.getKeyCode() == KeyEvent.VK_S) archivo.guardar(jugador);
+
+
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            jugador.x = 60;
+            jugador.y = ALTURA_SUELO - TAMANO_JUGADOR;
+            try {
+                java.lang.reflect.Field dyField = jugador.getClass().getDeclaredField("dy");
+                dyField.setAccessible(true);
+                dyField.set(jugador, 0);
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
     public void keyReleased(KeyEvent e) {
