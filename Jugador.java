@@ -1,8 +1,13 @@
 package Practica_6;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Jugador extends Entidad {
@@ -12,12 +17,20 @@ public class Jugador extends Entidad {
     private boolean cooldownDobleSalto = true;
     private int direccionActual = 0;
 
+    private BufferedImage spriteActual; // <- imagen del jugador
+
     public Jugador(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
+
+        try {
+            spriteActual = ImageIO.read(new File("C:\\Users\\dlara\\Pictures\\Skin\\prota.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void actualizar() {
-        if(!dash){
+        if (!dash) {
             if (izquierda) x -= 6;
             if (derecha) x += 6;
             dy += 1;
@@ -34,7 +47,9 @@ public class Jugador extends Entidad {
                 enSuelo = true;
             }
             if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
-                x = 50; y = 500; dy = 0;
+                x = 50;
+                y = 500;
+                dy = 0;
             }
         }
     }
@@ -48,62 +63,65 @@ public class Jugador extends Entidad {
                 enSuelo = true;
             }
             if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
-                //region dy para fisica Slime
                 dy = 0;
-                //endregion
-
-                //region dy para trampolin
-//                dy = -20;
-                //endregion
             }
         }
     }
 
     public void dibujar(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(x, y, ancho, alto);
+        if (spriteActual != null) {
+            g.drawImage(spriteActual, x, y, ancho, alto, null);
+        } else {
+            g.setColor(Color.BLUE);
+            g.fillRect(x, y, ancho, alto); // fallback si no hay imagen
+        }
     }
 
+    public void cambiarSprite(String rutaSprite) {
+        try {
+            spriteActual = ImageIO.read(new File(rutaSprite));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setIzquierda(boolean b) {
         izquierda = b;
-        if(b){
+        if (b) {
             direccionActual = 1;
             derecha = false;
         }
-
     }
+
     public void setDerecha(boolean b) {
         derecha = b;
-        if(b) direccionActual = 2;
+        if (b) direccionActual = 2;
     }
 
     public void saltar() {
         if (enSuelo) {
             dy = -15;
             cooldownDobleSalto = true;
-        }
-        else if (cooldownDobleSalto) {
+        } else if (cooldownDobleSalto) {
             dy = -15;
             cooldownDobleSalto = false;
         }
     }
 
     public void setDash() {
-        if (!dash && cooldownDash){
+        if (!dash && cooldownDash) {
             dash = true;
             cooldownDash = false;
 
-            int direccion = (direccionActual == 1) ? -10 : 10; // paso por frame
-            int repeticiones = 10; // mover 10 veces (total 100 px)
+            int direccion = (direccionActual == 1) ? -10 : 10;
+            int repeticiones = 10;
 
-            Timer dashTimer = new Timer(10, null); // 10 ms entre cada paso
-
+            Timer dashTimer = new Timer(10, null);
             dashTimer.addActionListener(new ActionListener() {
                 int pasos = 0;
 
                 public void actionPerformed(ActionEvent e) {
-                    x += direccion; // aquí sí se mueve
+                    x += direccion;
                     pasos++;
                     if (pasos >= repeticiones) {
                         dashTimer.stop();
@@ -115,15 +133,18 @@ public class Jugador extends Entidad {
             dashTimer.start();
 
             new java.util.Timer().schedule(new java.util.TimerTask() {
-
                 public void run() {
                     cooldownDash = true;
                 }
-            },500);
+            }, 500);
         }
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
-}
+    public int getX() {
+        return x;
+    }
 
+    public int getY() {
+        return y;
+    }
+}

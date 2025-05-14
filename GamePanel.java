@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        jugador = new Jugador(100, 7, 40, 40); // Ajusté la posición inicial
+        jugador = new Jugador(100, 7, 60, 40); // Ajusté la posición inicial
         entidades = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
