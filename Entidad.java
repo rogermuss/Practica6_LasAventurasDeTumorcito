@@ -4,12 +4,14 @@ import java.awt.*;
 
 public abstract class Entidad {
     protected int x, y, ancho, alto;
+    protected boolean activo;
 
-    public Entidad(int x, int y, int ancho, int alto) {
+    public Entidad(int x, int y, int ancho, int alto, boolean z) {
         this.x = x;
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
+        this.activo = z;
     }
 
     public Rectangle getRect() {
