@@ -257,6 +257,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         // Paredes laterales del nivel
         entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
         entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA, false));
+
+        //Techo del nivel
+        entidades.add(new Plataforma(0, -20, ANCHO_PARED+820, 20, true));
+
         // PUNTO DE INICIO - Plataforma de inicio (donde está el jugador - cuadrado azul)
         int altoPlataforma = 40;
         entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 120, altoPlataforma, false));
@@ -271,9 +275,67 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED + 350+70-30, ALTO_VENTANA - altoPlataforma -140+TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
 
         //Plataforma con trampolin trampa
-        entidades.add(new Plataforma(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma-40-90, 30, altoPlataforma, false));
+        entidades.add(new Plataforma(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma-130, 40, altoPlataforma, false));
+        entidades.add(new PlataformaTrampolin(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma-170, 40, altoPlataforma, false));
+
+        //Plataforma con picos encima del trampolin
+        entidades.add(new Plataforma(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma-170-40-80, 40+40, altoPlataforma, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED + 200+40, ALTO_VENTANA - altoPlataforma-170-40-40, 40, altoPlataforma-20, EnemigoEstaticoTriangulo.DOWN));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma-170-40-40, 40, altoPlataforma-20, EnemigoEstaticoTriangulo.DOWN));
+
+        //Plataforma esquina inferior derecha con trampolin y trampas
+        entidades.add(new Plataforma(ANCHO_PARED+655, ALTO_VENTANA - altoPlataforma, 120, altoPlataforma, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED+655+45, ALTO_VENTANA - altoPlataforma-20, 20, altoPlataforma-20, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED+655+25, ALTO_VENTANA - altoPlataforma-20, 20, altoPlataforma-20, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new PlataformaTrampolin(ANCHO_PARED+655+75, ALTO_VENTANA - altoPlataforma-20, 40, altoPlataforma-20, false));
 
 
+        //Plataforma en forma de serpienta escalable
+        entidades.add(new Plataforma(ANCHO_PARED+660, ALTO_VENTANA - altoPlataforma-270, 30, altoPlataforma+150, false));
+        entidades.add(new Plataforma(ANCHO_PARED+690, ALTO_VENTANA - altoPlataforma-120, 30, altoPlataforma, false));
+        entidades.add(new Plataforma(ANCHO_PARED+630, ALTO_VENTANA - altoPlataforma-270, 30, altoPlataforma, false));
+
+        //Plataforma escalable pegada a la pared derecha
+        entidades.add(new Plataforma(ANCHO_PARED+655+90, ALTO_VENTANA - altoPlataforma-215, 30, altoPlataforma-20, false));
+
+        //Trampolin aereo
+        entidades.add(new PlataformaTrampolin(ANCHO_PARED + 350+70, ALTO_VENTANA - altoPlataforma - 345, 20, 20, false));
+
+        EnemigoVolador volador1 = new EnemigoVolador(
+                ANCHO_PARED+630-100, 
+                ALTO_VENTANA - altoPlataforma - 430,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 290,
+                true // true para movimiento vertical
+        );
+        entidades.add(volador1);
+        enemigosVoladores.add(volador1);
+
+        EnemigoVolador volador2 = new EnemigoVolador(
+                ANCHO_PARED+630-300, 
+                ALTO_VENTANA - altoPlataforma - 390,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 280,
+                true // true para movimiento vertical
+        );
+        entidades.add(volador2);
+        enemigosVoladores.add(volador2);
+
+        //Pared antes de la meta
+        entidades.add(new Plataforma(ANCHO_VENTANA/2-380-8+114, 0, 30, 48+40, false));
+
+
+        //Trampolin para llegar a la meta
+        entidades.add(new Plataforma(ANCHO_VENTANA/2-380-8+56, 47+90, 51, 20, false));
+
+
+
+        //Plataforma objetivo final
+        entidades.add(new Plataforma(ANCHO_VENTANA/2-380-8, 5+42, 40+16, 40, false));
         objetivo = new ObjetivoFinal(ANCHO_VENTANA/2-380, 5, 40, 40);
         entidades.add(objetivo);
     }
@@ -391,6 +453,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             try {
                 Thread.sleep(2000); // 2 segundos de pausa
                 nivelActual++;
+                removeAll();
                 cargarNivel(nivelActual);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

@@ -74,6 +74,7 @@ public class Jugador extends Entidad {
                 }
             }
 
+            
             if (e instanceof EnemigoTerrestre && getRect().intersects(e.getRect())) {
                 x = 50; y = 400; dy = 0;
             }
@@ -128,6 +129,46 @@ public class Jugador extends Entidad {
                 }
             }
 
+            if (e instanceof PlataformaTrampolin && getRect().intersects(e.getRect())) {
+                PlataformaTrampolin plataforma = (PlataformaTrampolin) e;
+                Rectangle rectJugador = getRect();
+                Rectangle rectPlataforma = e.getRect();
+
+                // Calcular la intersección entre el jugador y la plataforma
+                Rectangle interseccion = rectJugador.intersection(rectPlataforma);
+
+                // Colisión desde arriba
+                if (dy > 0 && rectJugador.y + rectJugador.height - dy <= rectPlataforma.y) {
+                    y = rectPlataforma.y - alto;
+                    dy = 0;
+                    enSuelo = true;
+                }
+                // Colisión desde abajo
+                else if (dy < 0 && rectJugador.y - dy >= rectPlataforma.y + rectPlataforma.height) {
+                    y = rectPlataforma.y + rectPlataforma.height;
+                    dy = 0;
+                }
+                // Colisión desde la izquierda
+                else if (interseccion.height > interseccion.width &&
+                        rectJugador.x + rectJugador.width - interseccion.width <= rectPlataforma.x) {
+                    x = rectPlataforma.x - ancho;
+                }
+                // Colisión desde la derecha
+                else if (interseccion.height > interseccion.width &&
+                        rectJugador.x + interseccion.width >= rectPlataforma.x + rectPlataforma.width) {
+                    x = rectPlataforma.x + rectPlataforma.width;
+                }
+
+                //region dy para fisica Slime
+                // dy = 0;
+                //endregion
+
+                //region dy para trampolin
+                dy = -15;
+                //endregion
+            }
+
+
             // Colisiones con enemigos triangulares (picos rojos)
             if (e instanceof EnemigoEstaticoTriangulo && getRect().intersects(e.getRect())) {
                 // Reiniciar al punto de inicio
@@ -156,7 +197,7 @@ public class Jugador extends Entidad {
     public void fisicaSlime(List<Entidad> entidades) {
         enSuelo = false;
         for (Entidad e : entidades) {
-            if (e instanceof Plataforma && getRect().intersects(e.getRect())) {
+            if (e instanceof PlataformaTrampolin && getRect().intersects(e.getRect())) {
                 y = e.getRect().y - alto;
                 dy = 0;
                 enSuelo = true;
@@ -229,6 +270,7 @@ public class Jugador extends Entidad {
 
             int direccion = (direccionActual == 1) ? -10 : 10; // paso por frame
             int repeticiones = 10; // mover 10 veces (total 100 px)
+            dy = 0;
 
             Timer dashTimer = new Timer(10, null); // 10 ms entre cada paso
 
