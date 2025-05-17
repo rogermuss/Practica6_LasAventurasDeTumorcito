@@ -2,12 +2,16 @@ package Practica_6;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-
 public class GameFrame extends JFrame {
-    public GameFrame() {
+    public GameFrame(boolean opcionJugar) {
         setTitle("Juego de Plataforma 2D");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setContentPane(new GamePanel());
+        if(opcionJugar) {
+            setContentPane(new GamePanel(2));  
+        }
+        else {
+            setContentPane(new GamePanel());
+        }
         setBackground(Color.LIGHT_GRAY);
         setResizable(false);
         pack();
@@ -16,6 +20,6 @@ public class GameFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new GameFrame();
+        new GameFrame(true);
     }
 }
