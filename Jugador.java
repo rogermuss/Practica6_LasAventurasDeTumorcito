@@ -168,6 +168,11 @@ public class Jugador extends Entidad {
                 //endregion
             }
 
+            if(e instanceof TerrenoSlime && getRect().intersects(e.getRect())){
+                dy = 0;
+                enSuelo = true;
+            }
+
 
             // Colisiones con enemigos triangulares (picos rojos)
             if (e instanceof EnemigoEstaticoTriangulo && getRect().intersects(e.getRect())) {
@@ -185,6 +190,13 @@ public class Jugador extends Entidad {
                 dy = 0;
             }
 
+            if(e instanceof EnemigoTerrestre && getRect().intersects(e.getRect())){
+                // Reiniciar al punto de inicio
+                x = posicionInicialX;
+                y = posicionInicialY;
+                dy = 0;
+            }
+
             // Mantenemos el comportamiento del trampolín
             if (e instanceof EnemigoTrampa && getRect().intersects(e.getRect())) {
                 dy = -20;
@@ -194,25 +206,6 @@ public class Jugador extends Entidad {
         }
     }
 
-    public void fisicaSlime(List<Entidad> entidades) {
-        enSuelo = false;
-        for (Entidad e : entidades) {
-            if (e instanceof PlataformaTrampolin && getRect().intersects(e.getRect())) {
-                y = e.getRect().y - alto;
-                dy = 0;
-                enSuelo = true;
-            }
-            if (e instanceof Enemigo && getRect().intersects(e.getRect())) {
-                //region dy para fisica Slime
-                dy = 0;
-                //endregion
-
-                //region dy para trampolin
-//                dy = -20;
-                //endregion
-            }
-        }
-    }
 
     public void dibujar(Graphics g) {
         if (spriteActual != null) {
@@ -252,7 +245,7 @@ public class Jugador extends Entidad {
                 cooldownDobleSalto = true;
             }
             else if (cooldownDobleSalto) {
-                dy = -15;
+                dy = -12;
                 cooldownDobleSalto = false;
             }
         }
@@ -263,7 +256,7 @@ public class Jugador extends Entidad {
         }
     }
 
-    public void setDash() {
+    public void setDash(List<Entidad> entidades) {
         if (!dash && cooldownDash){
             dash = true;
             cooldownDash = false;
@@ -274,12 +267,31 @@ public class Jugador extends Entidad {
 
             Timer dashTimer = new Timer(10, null); // 10 ms entre cada paso
 
+
             dashTimer.addActionListener(new ActionListener() {
                 int pasos = 0;
 
                 public void actionPerformed(ActionEvent e) {
-                    x += direccion; // aquí sí se mueve
-                    pasos++;
+                    // Crear una "posición futura"
+                    Rectangle futuro = new Rectangle(x + direccion, y, getRect().width, getRect().height);
+
+                    boolean colision = false;
+
+                    for (Entidad ent : entidades) {
+                        if ((ent instanceof Plataforma || ent instanceof PlataformaTrampolin) && futuro.intersects(ent.getRect())) {
+                        colision = true;
+                        break;
+                        }
+                    }
+
+                    if (!colision) {
+                        x += direccion; // Solo se mueve si NO hay colisión
+                        pasos++;
+                    } else {
+                        dashTimer.stop(); // Detiene el dash si hay colisión
+                        dash = false;
+                    }
+
                     if (pasos >= repeticiones) {
                         dashTimer.stop();
                         dash = false;

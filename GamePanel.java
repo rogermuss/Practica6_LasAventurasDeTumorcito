@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     // Referencias a enemigos móviles para actualizarlos
     private ArrayList<EnemigoVolador> enemigosVoladores;
+    private ArrayList<EnemigoTerrestre> enemigosTerrestres;
+
 
     private final int ANCHO_VENTANA = 854;
     private final int ALTO_VENTANA = 480;
@@ -49,6 +51,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         jugador = new Jugador(60, ALTO_VENTANA - TAMANO_PLATAFORMA - TAMANO_JUGADOR, TAMANO_JUGADOR+10, TAMANO_JUGADOR);
         entidades = new ArrayList<>();
         enemigosVoladores = new ArrayList<>();
+        enemigosTerrestres = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
 
@@ -73,6 +76,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         jugador = new Jugador(60, ALTO_VENTANA - TAMANO_PLATAFORMA - TAMANO_JUGADOR, TAMANO_JUGADOR+10, TAMANO_JUGADOR);
         entidades = new ArrayList<>();
         enemigosVoladores = new ArrayList<>();
+        enemigosTerrestres = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
 
@@ -228,7 +232,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         // Plataforma en L inferior central
         entidades.add(new Plataforma(ANCHO_VENTANA/2, ALTO_VENTANA - altoPlataforma, 50, altoPlataforma, false));
-        entidades.add(new Plataforma(ANCHO_VENTANA/2, ALTO_VENTANA - 150, 50, 80, false));
+        entidades.add(new Plataforma(ANCHO_VENTANA/2, ALTO_VENTANA - 150, 50, 70, false));
         entidades.add(new Plataforma(ANCHO_VENTANA/2 - 120, ALTO_VENTANA - 150, 170, altoPlataforma, false));
 
         // Plataforma con picos central
@@ -250,9 +254,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         btnInstrucciones.setFocusable(false);
         btnInstrucciones.setEnabled(false);
         btnInstrucciones.setFocusPainted(false);
-        btnInstrucciones.setBackground(new Color(100, 50, 44));
+        btnInstrucciones.setBackground(new Color(140, 19, 44));
         btnInstrucciones.setForeground(Color.WHITE);
-        add(btnInstrucciones, BorderLayout.NORTH);
+        add(btnInstrucciones);
 
         // Paredes laterales del nivel
         entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
@@ -270,7 +274,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         //Plataforma en forma de L invertida con picos hacia la izquierda
         entidades.add(new Plataforma(ANCHO_PARED + 350, ALTO_VENTANA - altoPlataforma - 40, 70, altoPlataforma - 20, false));
-        entidades.add(new Plataforma(ANCHO_PARED + 350+70, ALTO_VENTANA - altoPlataforma -140 , 30, altoPlataforma + 80, false));
+        entidades.add(new Plataforma(ANCHO_PARED + 350+70, ALTO_VENTANA - altoPlataforma -140-5 , 30, altoPlataforma + 85, false));
         entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED + 350+70-30, ALTO_VENTANA - altoPlataforma -140, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
         entidades.add(new EnemigoEstaticoTriangulo(ANCHO_PARED + 350+70-30, ALTO_VENTANA - altoPlataforma -140+TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
 
@@ -341,7 +345,181 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void crearNivel2(){
+        setLayout(new BorderLayout());
+        JButton btnInstrucciones = new JButton("Enemigos nuevos, CUIDADO!!");
+        btnInstrucciones.setFocusable(false);
+        btnInstrucciones.setEnabled(false);
+        btnInstrucciones.setFocusPainted(false);
+        btnInstrucciones.setBackground(new Color(140, 19, 44));
+        btnInstrucciones.setForeground(Color.WHITE);
+        add(btnInstrucciones, BorderLayout.SOUTH);
+
+         // Paredes laterales del nivel
+        entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA-40, 0, ANCHO_PARED, ALTO_VENTANA, false));
+
+        //Techo del nivel
+        entidades.add(new Plataforma(0, -20, ANCHO_PARED+820, 20, true));
+
+        // PUNTO DE INICIO - Plataforma de inicio (donde está el jugador - cuadrado azul)
+        int altoPlataforma = 40;
+        entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 80, altoPlataforma, false));
+
+        //Plataforma alargada inferior
+        entidades.add(new Plataforma(ANCHO_PARED+80, ALTO_VENTANA-20 - altoPlataforma, 694, altoPlataforma+20, false));
+
+        //Plataforma alargada Superior
+        entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA-150 - altoPlataforma, 694, altoPlataforma, false));
+
+        //Enemigos en orden de izquierda a derecha        
+
+        EnemigoTerrestre terrestre1 = new EnemigoTerrestre(
+                ANCHO_PARED+150, 
+                ALTO_VENTANA-40-50 - altoPlataforma, 
+                TAMANO_ENEMIGO, 
+                TAMANO_ENEMIGO,
+                ANCHO_PARED+300-200,
+                ANCHO_PARED+300+400,
+                EnemigoTerrestre.CON_SALTO
+        );
+        entidades.add(terrestre1);
+        enemigosTerrestres.add(terrestre1);
+
+        EnemigoTerrestre terrestre2 = new EnemigoTerrestre(
+                ANCHO_PARED+300, 
+                ALTO_VENTANA-40-50 - altoPlataforma, 
+                TAMANO_ENEMIGO, 
+                TAMANO_ENEMIGO,
+                ANCHO_PARED+300-200,
+                ANCHO_PARED+300+400,
+                EnemigoTerrestre.CON_SALTO
+        );
+        entidades.add(terrestre2);
+        enemigosTerrestres.add(terrestre2);
+
+        EnemigoTerrestre terrestre3 = new EnemigoTerrestre(
+                ANCHO_PARED+450, 
+                ALTO_VENTANA-40-50 - altoPlataforma, 
+                TAMANO_ENEMIGO, 
+                TAMANO_ENEMIGO,
+                ANCHO_PARED+300-200,
+                ANCHO_PARED+300+400,
+                EnemigoTerrestre.CON_SALTO
+        );
+        entidades.add(terrestre3);
+        enemigosTerrestres.add(terrestre3);
+
+        //Plataformas de bloqueo para el enemigo terrestre
+        entidades.add(new Plataforma(ANCHO_PARED+694-40, ALTO_VENTANA-150-30 - altoPlataforma, 40, 30, false));
+        entidades.add(new Plataforma(ANCHO_PARED+694-250, ALTO_VENTANA-150-30 - altoPlataforma, 40, 30, false));
         
+        //Enemigo entre plataformas de bloqueo
+        EnemigoTerrestre terrestre4 = new EnemigoTerrestre(
+                ANCHO_PARED+694-240, 
+                ALTO_VENTANA-150-50 - altoPlataforma, 
+                TAMANO_ENEMIGO, 
+                TAMANO_ENEMIGO,
+                ANCHO_PARED+300+140,
+                ANCHO_PARED+300+400,
+                EnemigoTerrestre.CON_SALTO
+        );
+        entidades.add(terrestre4);
+        enemigosTerrestres.add(terrestre4);
+
+
+        //parte secreta con objeto
+        entidades.add(new Plataforma(ANCHO_PARED+694-75, ALTO_VENTANA-150-40-190 - altoPlataforma, 156, altoPlataforma, false));
+
+        entidades.add(new PlataformaTrampolin(ANCHO_PARED+694-240, ALTO_VENTANA-150-40-200 - altoPlataforma, 30, 30, false));
+
+        //AGREGAR COLECCIONABLE ===========================
+
+
+        //Tapadera alargada:         
+        entidades.add(new Plataforma(ANCHO_PARED+694-240, ALTO_VENTANA-150-40-200+30 - altoPlataforma, 30, 170-30, false));
+
+        //Tapadera chica
+        entidades.add(new Plataforma(ANCHO_PARED+694-240-40, ALTO_VENTANA-150-40-200-50 - altoPlataforma, 30, 100, false));
+               
+        //Rellena comisura
+        entidades.add(new Plataforma(ANCHO_PARED+694-240-40+30, ALTO_VENTANA-150-40-200+30 - altoPlataforma, 10, 20, false));
+
+
+        //PARTE FINAL
+
+        //Tapadera alargada superior
+        entidades.add(new Plataforma(ANCHO_PARED+50, ALTO_VENTANA-275 - altoPlataforma, 414, altoPlataforma, false));
+
+        
+
+        //Enemigos aereos
+        EnemigoVolador volador1 = new EnemigoVolador(
+            ANCHO_PARED+60, 
+            ALTO_VENTANA - altoPlataforma - 430,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+        );
+        entidades.add(volador1);
+        enemigosVoladores.add(volador1);
+
+        EnemigoVolador volador2 = new EnemigoVolador(
+            ANCHO_PARED+165, 
+            ALTO_VENTANA - altoPlataforma - 380,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+        );
+        entidades.add(volador2);
+        enemigosVoladores.add(volador2);
+
+        EnemigoVolador volador3 = new EnemigoVolador(
+            ANCHO_PARED+270, 
+            ALTO_VENTANA - altoPlataforma - 400,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+        );
+        entidades.add(volador3);
+        enemigosVoladores.add(volador3);
+
+        EnemigoVolador volador4 = new EnemigoVolador(
+            ANCHO_PARED+375, 
+            ALTO_VENTANA - altoPlataforma - 400,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+        );
+        entidades.add(volador4);
+        enemigosVoladores.add(volador4);
+
+        EnemigoTerrestre terrestre5 = new EnemigoTerrestre(
+                ANCHO_PARED, 
+                ALTO_VENTANA-265, 
+                TAMANO_ENEMIGO-10, 
+                TAMANO_ENEMIGO-10,
+                ANCHO_PARED,
+                ANCHO_PARED+486,
+                EnemigoTerrestre.CON_SALTO
+        );
+        entidades.add(terrestre5);
+        enemigosTerrestres.add(terrestre5);
+
+        //Slime de prueba 
+        entidades.add(new TerrenoSlime(ANCHO_PARED, ALTO_VENTANA-170 - altoPlataforma, 445, 22,false));
+
+        //Objetivo final
+        entidades.add(new Plataforma(ANCHO_VENTANA/2-380-8, 0, 40+16, 80, false));
+        objetivo = new ObjetivoFinal(ANCHO_PARED+694-240-45,120 , 40, 40);
+        entidades.add(objetivo);
     }
 
     public void crearNivel3(){
@@ -384,6 +562,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         for (EnemigoVolador volador : enemigosVoladores) {
             volador.actualizar();
         }
+        for (EnemigoTerrestre terrestre : enemigosTerrestres) {
+            terrestre.verificarColisionesPersonalizado(entidades);
+            terrestre.actualizar();
+        }
 
         jugador.verificarColisionesPersonalizado(entidades);
         manejarColisionesParedes();
@@ -409,74 +591,127 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    // Reemplaza tu método paintComponent con este:
+public void paintComponent(Graphics g) {
+    super.paintComponent(g);
 
-        // Dibujar imagen de fondo si está cargada
-        if (fondoCargado && fondoImagen != null) {
-            g.drawImage(fondoImagen, 0, 0, ANCHO_VENTANA, ALTO_VENTANA, null);
-        } else {
-            // Fondo blanco si no hay imagen
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, ANCHO_VENTANA, ALTO_VENTANA);
-        }
+    // Dibujar imagen de fondo si está cargada
+    if (fondoCargado && fondoImagen != null) {
+        g.drawImage(fondoImagen, 0, 0, ANCHO_VENTANA, ALTO_VENTANA, null);
+    } else {
+        // Fondo blanco si no hay imagen
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, ANCHO_VENTANA, ALTO_VENTANA);
+    }
 
-        // Dibujar todas las entidades
-        for (Entidad ent : entidades) {
-            ent.dibujar(g);
-        }
+    // Dibujar todas las entidades
+    for (Entidad ent : entidades) {
+        ent.dibujar(g);
+    }
 
-        // Dibujar jugador
-        jugador.dibujar(g);
+    // Dibujar jugador
+    jugador.dibujar(g);
 
-        // Si el juego ha terminado, mostrar mensaje
-        // Si el juego ha terminado
+    // Si el juego ha terminado, mostrar mensaje
     if (juegoTerminado) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("¡Nivel Completado "+nivelActual+"!", ANCHO_VENTANA / 2 - 150, ALTO_VENTANA / 2);
-        // Esperar unos segundos y avanzar al siguiente nivel
-        if (nivelActual == 0) {
-            JOptionPane.showMessageDialog(this, "Click para volver al menu principal");            
-            SwingUtilities.getWindowAncestor(this).dispose();
-            new MenuTumorcin();
-            return;
-        }
-        if (nivelActual == 3) {
-            JOptionPane.showMessageDialog(this, "Gracias por jugar TUMORCIN!!");            
-            SwingUtilities.getWindowAncestor(this).dispose();
-            new MenuTumorcin();
-            return;
-        }
-        juegoTerminado = false; // evitar múltiples entradas
+        g.drawString("¡Nivel Completado " + nivelActual + "!", ANCHO_VENTANA / 2 - 150, ALTO_VENTANA / 2);
+        
+        // Detener el timer para que no siga actualizando mientras cambiamos de nivel
+        timer.stop();
+        
+        // Manejar transición al siguiente nivel
+        cambiarNivel();
+    }
+}
+
+// Método nuevo para manejar el cambio de nivel
+private void cambiarNivel() {
+    // Evitar múltiples llamadas
+    if (!timer.isRunning()) {
         new Thread(() -> {
             try {
                 Thread.sleep(2000); // 2 segundos de pausa
-                nivelActual++;
-                removeAll();
-                cargarNivel(nivelActual);
+                
+                // Ejecutar en el hilo de EDT para evitar problemas de sincronización
+                SwingUtilities.invokeLater(() -> {
+                    if (nivelActual == 0) {
+                        JOptionPane.showMessageDialog(this, "Click para volver al menu principal");
+                        SwingUtilities.getWindowAncestor(this).dispose();
+                        new MenuTumorcin();
+                        return;
+                    }
+                    
+                    if (nivelActual == 3) {
+                        JOptionPane.showMessageDialog(this, "Gracias por jugar TUMORCIN!!");
+                        SwingUtilities.getWindowAncestor(this).dispose();
+                        new MenuTumorcin();
+                        return;
+                    }
+                    
+                    // Incrementar nivel
+                    nivelActual++;
+                    
+                    // Limpiar completamente todos los elementos del nivel
+                    limpiarNivel();
+                    
+                    // Cargar el nuevo nivel
+                    cargarNivel(nivelActual);
+                    
+                    // Reiniciar jugador
+                    reiniciarJugador();
+                    
+                    // Restaurar estado del juego
+                    juegoTerminado = false;
+                    
+                    // Volver a iniciar el timer
+                    timer.start();
+                });
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
-    }
+}
 
+// Método para limpiar completamente el nivel actual
+private void limpiarNivel() {
+    // Eliminar todos los componentes Swing
+    removeAll();
+    
+    // Limpiar todas las colecciones de entidades
+    entidades.clear();
+    enemigosVoladores.clear();
+    enemigosTerrestres.clear();
+    
+    // Eliminar referencia al objetivo
+    objetivo = null;
+    
+    // Rediseñar y repintar el panel
+    revalidate();
+    repaint();
+}
 
-    //Se necesita un metodo con el cual se pueda cargar los datos del nivel dependiendo del nivel en el que se encuentren.
-    public void cargarNivel(int nivel){
-        switch(nivel){
-            case 1:
-                crearNivel1();
+// También mejora tu método cargarNivel:
+public void cargarNivel(int nivel) {
+    this.nivelActual = nivel; // Asegúrate de actualizar la variable nivelActual
+    
+    switch(nivel) {
+        case 1:
+            crearNivel1();
             break;
-            case 2:
-                crearNivel2();
+        case 2:
+            crearNivel2();
             break;
-            case 3:
-                crearNivel3();
+        case 3:
+            crearNivel3();
             break;
-        }
+        default:
+            crearNivelTutorial();
+            break;
     }
+}
     
     public void keyPressed(KeyEvent e) {
         if (juegoTerminado) return; // No procesar teclas si el juego ha terminado
@@ -489,7 +724,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         else{
             if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar(true);
         }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.setDash();
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) jugador.setDash(entidades);
         if (e.getKeyCode() == KeyEvent.VK_S) archivo.guardar(jugador);
 
         // Reiniciar posición con tecla R
