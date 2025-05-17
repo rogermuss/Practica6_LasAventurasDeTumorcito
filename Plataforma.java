@@ -18,16 +18,26 @@ public class Plataforma extends Entidad {
 
     private void cargarImagen() {
         try {
-            // Intentar cargar desde la ruta absoluta primero
-            File archivo = new File("C:\\Users\\yojua\\OneDrive\\Escritorio\\Practica6_LasAventurasDeTumorcito-master\\Plataforma.png");
+            File archivo = null;
 
+            // Selección de imagen basada en las dimensiones
+            if (alto >= 100) {
+                archivo = new File("textures/muroLimite.png");
+            } else if (alto == 120) {
+                archivo = new File("textures/murolimite.png");
+            } else if (ancho <= 50 && alto <= 40) {
+                archivo = new File("textures/plataformaChica.png");
+            }else if (ancho == 120) {
+                archivo = new File("textures/plataformaMediana.png");
+            } else {
+                archivo = new File("textures/plataformaChica.png");
+            }
+
+            // Fallback si no se encuentra
             if (!archivo.exists()) {
-                // Si no existe en la ruta absoluta, intentar rutas relativas
-                archivo = new File("Plataforma.png");
-
-                if (!archivo.exists()) {
-                    archivo = new File("src/Practica_6/Plataforma.png");
-                }
+                archivo = new File("C:\\Users\\dlara\\Desktop\\projects\\chapter01\\Juego 2Dv2\\textures\\muroLimite.png");
+                if (!archivo.exists()) archivo = new File("Plataforma.png");
+                if (!archivo.exists()) archivo = new File("src/Practica_6/Plataforma.png");
             }
 
             if (archivo.exists()) {

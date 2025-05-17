@@ -94,14 +94,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     private void cargarFondo() {
         try {
             // Intentar cargar desde la ruta absoluta primero
-            File archivo = new File("fondo.jpg");
+            File archivo = new File("background.png");
 
             if (!archivo.exists()) {
                 // Si no existe en la ruta absoluta, intentar rutas relativas
-                archivo = new File("fondo.jpg");
+                archivo = new File("background.png");
 
                 if (!archivo.exists()) {
-                    archivo = new File("src/Practica_6/fondo.jpg");
+                    archivo = new File("C:\\Users\\dlara\\Desktop\\projects\\chapter01\\Juego 2Dv2\\textures\\background.png");
                 }
             }
 
@@ -270,7 +270,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 120, altoPlataforma, false));
 
         //Plataforma pequeña despues de la inicial
-        entidades.add(new Plataforma(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma, 30, altoPlataforma, false));
+        entidades.add(new Plataforma(ANCHO_PARED + 200, ALTO_VENTANA - altoPlataforma, 30, altoPlataforma-10, false));
 
         //Plataforma en forma de L invertida con picos hacia la izquierda
         entidades.add(new Plataforma(ANCHO_PARED + 350, ALTO_VENTANA - altoPlataforma - 40, 70, altoPlataforma - 20, false));
@@ -296,8 +296,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         //Plataforma en forma de serpienta escalable
         entidades.add(new Plataforma(ANCHO_PARED+660, ALTO_VENTANA - altoPlataforma-270, 30, altoPlataforma+150, false));
-        entidades.add(new Plataforma(ANCHO_PARED+690, ALTO_VENTANA - altoPlataforma-120, 30, altoPlataforma, false));
-        entidades.add(new Plataforma(ANCHO_PARED+630, ALTO_VENTANA - altoPlataforma-270, 30, altoPlataforma, false));
+        entidades.add(new Plataforma(ANCHO_PARED+690, ALTO_VENTANA - altoPlataforma-120, 30, altoPlataforma-20, false));
+        entidades.add(new Plataforma(ANCHO_PARED+630, ALTO_VENTANA - altoPlataforma-270, 30, altoPlataforma-20, false));
 
         //Plataforma escalable pegada a la pared derecha
         entidades.add(new Plataforma(ANCHO_PARED+655+90, ALTO_VENTANA - altoPlataforma-215, 30, altoPlataforma-20, false));
