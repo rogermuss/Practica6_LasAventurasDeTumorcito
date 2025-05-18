@@ -29,7 +29,10 @@ public class Plataforma extends Entidad {
                 archivo = new File("textures/plataformaChica.png");
             }else if (ancho == 120) {
                 archivo = new File("textures/plataformaMediana.png");
-            } else {
+            }else if (ancho >= 300){
+                archivo = new File("textures/plataformaLarga.png");
+            }
+            else {
                 archivo = new File("textures/plataformaChica.png");
             }
 

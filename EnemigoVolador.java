@@ -3,29 +3,47 @@ package Practica_6;
 import java.awt.*;
 
 public class EnemigoVolador extends Enemigo {
-    private int velocidad = 2;  
-    private int limiteIzquierdo;  // Límite movimiento
-    private int limiteDerecho;    // Límite movimiento
-    private boolean moverHorizontal = false;  
+    private int velocidad = 2;
 
+    // Movimiento horizontal
+    private int limiteIzquierdo;
+    private int limiteDerecho;
+    private boolean moverHorizontal = false;
+
+    // Movimiento vertical
+    private boolean movimientoVertical = false;
+    private int limiteSuperior;
+    private int limiteInferior;
+
+    // Constructor básico
     public EnemigoVolador(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
     }
 
-    // Constructor con límites para el movimiento
+    // Constructor para movimiento horizontal
     public EnemigoVolador(int x, int y, int ancho, int alto, int limiteIzquierdo, int limiteDerecho) {
         super(x, y, ancho, alto);
         this.limiteIzquierdo = limiteIzquierdo;
         this.limiteDerecho = limiteDerecho;
-        this.moverHorizontal = true;  
+        this.moverHorizontal = true;
     }
 
-    // Método para actualizar la posición del enemigo
-    public void actualizar() {
-        if (moverHorizontal) {
-            x += velocidad;
+    // Constructor para movimiento vertical
+    public EnemigoVolador(int x, int y, int ancho, int alto, int limiteSuperior, int limiteInferior, boolean movimientoVertical) {
+        super(x, y, ancho, alto);
+        this.limiteSuperior = limiteSuperior;
+        this.limiteInferior = limiteInferior;
+        this.movimientoVertical = movimientoVertical;
+    }
 
-            // Cambiar dirección si alcanza los límites
+    public void actualizar() {
+        if (movimientoVertical) {
+            y += velocidad;
+            if (y <= limiteSuperior || y + alto >= limiteInferior) {
+                velocidad = -velocidad;
+            }
+        } else if (moverHorizontal) {
+            x += velocidad;
             if (x <= limiteIzquierdo || x + ancho >= limiteDerecho) {
                 velocidad = -velocidad;
             }
