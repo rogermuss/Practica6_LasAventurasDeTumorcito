@@ -37,7 +37,7 @@ public class TerrenoSlime extends Entidad {
     private void cargarImagen() {
         try {
             // Intentar cargar desde la ruta absoluta primero
-            File archivo = new File("C:\\Users\\yojua\\OneDrive\\Escritorio\\Practica6_LasAventurasDeTumorcito-master\\Plataforma.png");
+            File archivo = new File("textures/slime.png");
 
             if (!archivo.exists()) {
                 // Si no existe en la ruta absoluta, intentar rutas relativas

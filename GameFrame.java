@@ -7,7 +7,7 @@ public class GameFrame extends JFrame {
         setTitle("Juego de Plataforma 2D");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         if(opcionJugar) {
-            setContentPane(new GamePanel(3));
+            setContentPane(new GamePanel(2));
         }
         else {
             setContentPane(new GamePanel());

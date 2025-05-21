@@ -54,10 +54,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosTerrestres = new ArrayList<>();
         archivo = new ArchivoJuego("progreso.txt");
 
-
         crearNivelTutorial();
-        // Solo cargar progreso si no deseas que empiece siempre desde el inicio
-        // archivo.cargar(jugador);
 
         timer = new Timer(16, this);
         timer.start();
