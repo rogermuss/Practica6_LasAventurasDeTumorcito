@@ -242,3 +242,4 @@ public class Jugador extends Entidad {
     public int getX() { return x; }
     public int getY() { return y; }
 }
+//para el commit

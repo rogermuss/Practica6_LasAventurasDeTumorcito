@@ -87,3 +87,4 @@ public class PlataformaMovil extends Plataforma {
         return esMovimientoVertical;
     }
 }
+//para el commit
