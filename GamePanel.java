@@ -849,7 +849,7 @@ public void cargarNivel(int nivel) {
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) jugador.setIzquierda(true);
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) jugador.setDerecha(true);
-        if(nivelActual == 1){
+        if(nivelActual == 2){
             if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar(false);
         }
         else{
