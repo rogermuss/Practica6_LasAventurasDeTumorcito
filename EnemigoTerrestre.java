@@ -3,47 +3,48 @@ package Practica_6;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
-
 
 public class EnemigoTerrestre extends Enemigo {
 
-
     private int velocidad = 2;
-    private int limiteIzquierdo;  // Límite horizontal izquierdo
-    private int limiteDerecho;    // Límite horizontal derecho
-    private int limiteSuperior;   // Límite vertical superior
-    private int limiteInferior;   // Límite vertical inferior
+    private int limiteIzquierdo;
+    private int limiteDerecho;
+    private int limiteSuperior;
+    private int limiteInferior;
     private int dy = 0;
 
-
-    private boolean moverHorizontal = false;  // Movimiento horizontal
-    private boolean moverVertical = false;    // Movimiento vertical
+    private boolean moverHorizontal = false;
+    private boolean moverVertical = false;
     private boolean enSuelo = false;
     private int conSalto = 1;
 
-    public static final  int CON_SALTO = 1;
+    public static final int CON_SALTO = 1;
+
+    private BufferedImage spriteActual;
+    private boolean intentoCargaImagen = false;
 
     public EnemigoTerrestre(int x, int y, int ancho, int alto) {
         super(x, y, ancho, alto);
     }
 
-    // Constructor para movimiento horizontal con salto
     public EnemigoTerrestre(int x, int y, int ancho, int alto, int limiteIzquierdo, int limiteDerecho, int conSalto) {
         super(x, y, ancho, alto);
         this.limiteIzquierdo = limiteIzquierdo;
         this.limiteDerecho = limiteDerecho;
         this.moverHorizontal = true;
-        if(conSalto == CON_SALTO){
+        if (conSalto == CON_SALTO) {
             saltar();
-        } 
+        }
     }
 
-
-
     public void saltar() {
-        int delay = 2000; // 3 segundos
+        int delay = 2000;
 
         Timer timer = new Timer(delay, new ActionListener() {
             @Override
@@ -56,14 +57,9 @@ public class EnemigoTerrestre extends Enemigo {
         timer.start();
     }
 
-    
-
-    // Método para actualizar la posición del enemigo
     public void actualizar() {
         if (moverHorizontal) {
             x += velocidad;
-
-            // Cambiar dirección si alcanza los límites horizontales
             if (x <= limiteIzquierdo || x + ancho >= limiteDerecho) {
                 velocidad = -velocidad;
             }
@@ -71,61 +67,76 @@ public class EnemigoTerrestre extends Enemigo {
 
         if (moverVertical) {
             y += velocidad;
-
-            // Cambiar dirección si alcanza los límites verticales
             if (y <= limiteSuperior || y + alto >= limiteInferior) {
                 velocidad = -velocidad;
             }
         }
 
-
-        //Saltar
         dy += 1;
         y += dy;
-
     }
 
-    // Nuevo método adaptado para el nivel de la imagen
     public void verificarColisionesPersonalizado(List<Entidad> entidades) {
         enSuelo = false;
 
         for (Entidad e : entidades) {
-            // Colisiones con plataformas
             if (e instanceof Plataforma && getRect().intersects(e.getRect())) {
                 Plataforma plataforma = (Plataforma) e;
                 Rectangle rectEnemigo = getRect();
                 Rectangle rectPlataforma = e.getRect();
-
                 Rectangle interseccion = rectEnemigo.intersection(rectPlataforma);
 
-                // Colisión desde arriba
                 if (dy > 0 && rectEnemigo.y + rectEnemigo.height - dy <= rectPlataforma.y) {
                     y = rectPlataforma.y - alto;
                     dy = 0;
                     enSuelo = true;
-                }
-                // Colisión desde abajo
-                else if (dy < 0 && rectEnemigo.y - dy >= rectPlataforma.y + rectPlataforma.height) {
+                } else if (dy < 0 && rectEnemigo.y - dy >= rectPlataforma.y + rectPlataforma.height) {
                     y = rectPlataforma.y + rectPlataforma.height;
                     dy = 0;
-                }
-                // Colisión desde la izquierda
-                else if (interseccion.height > interseccion.width &&
+                } else if (interseccion.height > interseccion.width &&
                         rectEnemigo.x + rectEnemigo.width - interseccion.width <= rectPlataforma.x) {
                     x = rectPlataforma.x - ancho;
-                }
-                // Colisión desde la derecha
-                else if (interseccion.height > interseccion.width &&
+                } else if (interseccion.height > interseccion.width &&
                         rectEnemigo.x + interseccion.width >= rectPlataforma.x + rectPlataforma.width) {
                     x = rectPlataforma.x + rectPlataforma.width;
                 }
             }
-
         }
     }
 
+    private void cargarImagen() {
+        try {
+            File archivo = new File("textures/enemigoTerrestre.png");
+
+            if (!archivo.exists()) {
+                archivo = new File("src/Practica_6/enemigoTerrestre.png");
+            }
+
+            if (archivo.exists()) {
+                spriteActual = ImageIO.read(archivo);
+                System.out.println("Imagen del enemigo terrestre cargada desde: " + archivo.getAbsolutePath());
+            } else {
+                System.out.println("No se pudo encontrar la imagen del enemigo terrestre en ninguna ubicación");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar la imagen del enemigo terrestre: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        intentoCargaImagen = true;
+    }
+
+    @Override
     public void dibujar(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(x, y, ancho, alto);
+        if (!intentoCargaImagen) {
+            cargarImagen();
+        }
+
+        if (spriteActual != null) {
+            g.drawImage(spriteActual, x, y, ancho, alto, null);
+        } else {
+            g.setColor(Color.RED);
+            g.fillRect(x, y, ancho, alto);
+        }
     }
 }

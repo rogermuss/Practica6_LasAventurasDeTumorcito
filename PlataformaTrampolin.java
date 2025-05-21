@@ -14,17 +14,16 @@ public class PlataformaTrampolin extends Entidad {
 
     public PlataformaTrampolin(int x, int y, int ancho, int alto, boolean z) {
         super(x, y, ancho, alto, z);
-        //TODO Auto-generated constructor stub
     }
 
     private void cargarImagen() {
         try {
             // Intentar cargar desde la ruta absoluta primero
-            File archivo = new File("C:\\Users\\yojua\\OneDrive\\Escritorio\\Practica6_LasAventurasDeTumorcito-master\\Plataforma.png");
+            File archivo = new File("textures/trampolin.png");
 
             if (!archivo.exists()) {
                 // Si no existe en la ruta absoluta, intentar rutas relativas
-                archivo = new File("log.jpg");
+                archivo = new File("l");
 
                 if (!archivo.exists()) {
                     archivo = new File("src/Practica_6/Plataforma.png");
@@ -47,8 +46,17 @@ public class PlataformaTrampolin extends Entidad {
 
     @Override
     public void dibujar(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(x, y, ancho, alto);
+        if (!intentoCargaImagen) {
+            cargarImagen();
+        }
+
+        if (spriteActual != null) {
+            g.drawImage(spriteActual, x, y, ancho, alto, null);
+        } else {
+            // Si no hay sprite, dibujamos un rectángulo gris oscuro
+            g.setColor(new Color(50, 150, 30));
+            g.fillRect(x, y, ancho, alto);
+        }
     }
 
 

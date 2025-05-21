@@ -101,7 +101,7 @@ public class Jugador extends Entidad {
             g.drawImage(imagenADibujar, x, y, ancho, alto, null);
         } else {
             g.setColor(Color.BLUE);
-            g.fillRect(x, y, ancho, alto);
+            g.fillOval(x, y, ancho, alto);
         }
     }
 

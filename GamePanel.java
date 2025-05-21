@@ -48,7 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         cargarFondo();
 
         // Iniciamos el jugador en la posición inicial (esquina inferior izquierda)
-        jugador = new Jugador(60, ALTO_VENTANA - TAMANO_PLATAFORMA - TAMANO_JUGADOR, TAMANO_JUGADOR+10, TAMANO_JUGADOR);
+        jugador = new Jugador(60, ALTO_VENTANA - TAMANO_PLATAFORMA - TAMANO_JUGADOR, TAMANO_JUGADOR, TAMANO_JUGADOR);
         entidades = new ArrayList<>();
         enemigosVoladores = new ArrayList<>();
         enemigosTerrestres = new ArrayList<>();
@@ -98,7 +98,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 archivo = new File("background.png");
 
                 if (!archivo.exists()) {
-                    archivo = new File("C:\\Users\\dlara\\Desktop\\projects\\chapter01\\Juego 2Dv2\\textures\\background.png");
+                    archivo = new File("textures/background.png");
                 }
             }
 
@@ -300,7 +300,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(new PlataformaTrampolin(ANCHO_VENTANA/2 -250, ALTO_VENTANA-249 - altoPlataforma, 30, 30, false));
 
     // Plataformas hasta arriba a la izquierda
-        entidades.add(new PlataformaMovil(ANCHO_VENTANA/2 - 380, yBase - 350, 40, 20, 50, 170, 2, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 380, yBase - 350, 40, 20, false));
         entidades.add(new Plataforma(ANCHO_VENTANA/2 - 220,  yBase - 410, 40, 20,   false));
     EnemigoVolador volador7 = new EnemigoVolador(
             ANCHO_PARED+255,
@@ -309,8 +309,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             TAMANO_ENEMIGO,
             ALTO_VENTANA - altoPlataforma - 430,
             ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
-    );
+            true
+            );
         entidades.add(volador7);
         enemigosVoladores.add(volador7);
 
@@ -323,7 +323,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             TAMANO_ENEMIGO,
             ALTO_VENTANA - altoPlataforma - 430,
             ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
+            true
     );
         entidades.add(volador6);
         enemigosVoladores.add(volador6);
@@ -849,7 +849,7 @@ public void cargarNivel(int nivel) {
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT) jugador.setIzquierda(true);
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) jugador.setDerecha(true);
-        if(nivelActual == 1){
+        if(nivelActual == 2){
             if (e.getKeyCode() == KeyEvent.VK_UP) jugador.saltar(false);
         }
         else{
