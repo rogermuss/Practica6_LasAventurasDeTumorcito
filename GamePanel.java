@@ -250,6 +250,108 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     //Crear niveles-----------------------
     public void crearNivel1(){
 
+    //NIVEL1
+    // Instrucciones del nivel
+    JButton btnInstrucciones = new JButton("Encuentra el camino a la meta");
+        btnInstrucciones.setFocusable(false);
+        btnInstrucciones.setEnabled(false);
+        btnInstrucciones.setFocusPainted(false);
+        btnInstrucciones.setBackground(new Color(140, 19, 44));
+        btnInstrucciones.setForeground(Color.WHITE);
+    add(btnInstrucciones);
+
+    // Paredes laterales y techo del nivel
+        entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA, false));
+        entidades.add(new Plataforma(0, -20, ANCHO_VENTANA, 20, true));
+
+    // PUNTO DE INICIO - Plataforma de inicio (donde está el jugador - cuadrado azul, abajo a la izquierda)
+    int altoPlataforma = 25;
+        entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 60, altoPlataforma, false));
+
+    // Plataforma base inferior larga con trampas (la larga de abajo en la imagen)
+    int yBase = ALTO_VENTANA - altoPlataforma;
+        entidades.add(new Plataforma(ANCHO_PARED + 120, yBase, 600, altoPlataforma, false));
+
+    // Añadir triángulos enemigos en la plataforma base (los triángulos rojos de abajo)
+    int espacioEntreEnemigos = 110;
+        for (int x = ANCHO_PARED + 170; x < ANCHO_PARED + 700; x += espacioEntreEnemigos) {
+        entidades.add(new EnemigoEstaticoTriangulo(x, yBase - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+    }
+    // Plataforma en la parte derecha
+        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 120, 20, 20, false));
+    //entidades.add(new PlataformaTrampolin(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 150, 30, 30, false));
+
+    // Plataforma con enemigos en el centro-derecha
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 130, yBase - 160, 80, 40, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 + 100, yBase - 160, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
+
+    // Plataformas central pequeña
+        entidades.add(new PlataformaMovil(
+            ANCHO_VENTANA/2 - 50,    // posición X
+            yBase - 220,        // posición Y inicial
+                40,                 // ancho de la plataforma
+                    20,                 // alto de la plataforma
+            ANCHO_VENTANA/2 - 95,  // límite izquierdo
+            ANCHO_VENTANA/2 + 50,  // límite derecho
+                1,                  // velocidad
+                    false               // movimiento vertical (true)
+    ));
+    //Plataforma central a la izquierda grande
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 280, yBase - 220, 80, 20, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 - 280, yBase - 249, TAMANO_ENEMIGO - 3, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new PlataformaTrampolin(ANCHO_VENTANA/2 -250, ALTO_VENTANA-249 - altoPlataforma, 30, 30, false));
+
+    // Plataformas hasta arriba a la izquierda
+        entidades.add(new PlataformaMovil(ANCHO_VENTANA/2 - 380, yBase - 350, 40, 20, 50, 170, 2, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 220,  yBase - 410, 40, 20,   false));
+    EnemigoVolador volador7 = new EnemigoVolador(
+            ANCHO_PARED+255,
+            ALTO_VENTANA - altoPlataforma - 400,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+    );
+        entidades.add(volador7);
+        enemigosVoladores.add(volador7);
+
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 50,  yBase - 370, 40, 20,   false));
+
+    EnemigoVolador volador6 = new EnemigoVolador(
+            ANCHO_PARED+415,
+            ALTO_VENTANA - altoPlataforma - 400,
+            TAMANO_ENEMIGO,
+            TAMANO_ENEMIGO,
+            ALTO_VENTANA - altoPlataforma - 430,
+            ALTO_VENTANA -altoPlataforma - 285,
+            true // true para movimiento vertical
+    );
+        entidades.add(volador6);
+        enemigosVoladores.add(volador6);
+
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 110,  yBase - 410, 40, 20,   false));
+
+
+    // Plataforma objetivo final (verde en la imagen)
+    int anchoObjetivo = 40;
+    int altoObjetivo = 40;
+    int xObjetivo = ANCHO_VENTANA/2 - 30;
+    int yObjetivo = 40;
+
+    // Plataforma que sostiene el objetivo
+        entidades.add(new Plataforma(xObjetivo + 310, yObjetivo + altoObjetivo, anchoObjetivo + 50, 10, false));
+        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 310, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 368, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+    // Objeto objetivo final
+    objetivo = new ObjetivoFinal(xObjetivo + 338, yObjetivo, anchoObjetivo - 10, altoObjetivo);
+        entidades.add(objetivo);
+
+}
+
+    public void crearNivel2(){
+
         JButton btnInstrucciones = new JButton("No puedes utilizar el doble salto");
         btnInstrucciones.setFocusable(false);
         btnInstrucciones.setEnabled(false);
@@ -343,8 +445,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         objetivo = new ObjetivoFinal(ANCHO_VENTANA/2-380, 5, 40, 40);
         entidades.add(objetivo);
     }
+        //NIVEL2
 
-    public void crearNivel2(){
+    public void crearNivel3() {
         setLayout(new BorderLayout());
         JButton btnInstrucciones = new JButton("Enemigos nuevos, CUIDADO!!");
         btnInstrucciones.setFocusable(false);
@@ -354,7 +457,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         btnInstrucciones.setForeground(Color.WHITE);
         add(btnInstrucciones, BorderLayout.SOUTH);
 
-         // Paredes laterales del nivel
+        // Paredes laterales del nivel
         entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
         entidades.add(new Plataforma(ANCHO_VENTANA-40, 0, ANCHO_PARED, ALTO_VENTANA, false));
 
@@ -454,49 +557,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         //Enemigos aereos
         EnemigoVolador volador1 = new EnemigoVolador(
-            ANCHO_PARED+60,
-            ALTO_VENTANA - altoPlataforma - 430,
-            TAMANO_ENEMIGO,
-            TAMANO_ENEMIGO,
-            ALTO_VENTANA - altoPlataforma - 430,
-            ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
+                ANCHO_PARED+60,
+                ALTO_VENTANA - altoPlataforma - 430,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
         );
         entidades.add(volador1);
         enemigosVoladores.add(volador1);
 
         EnemigoVolador volador2 = new EnemigoVolador(
-            ANCHO_PARED+165,
-            ALTO_VENTANA - altoPlataforma - 380,
-            TAMANO_ENEMIGO,
-            TAMANO_ENEMIGO,
-            ALTO_VENTANA - altoPlataforma - 430,
-            ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
+                ANCHO_PARED+165,
+                ALTO_VENTANA - altoPlataforma - 380,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
         );
         entidades.add(volador2);
         enemigosVoladores.add(volador2);
 
         EnemigoVolador volador3 = new EnemigoVolador(
-            ANCHO_PARED+270,
-            ALTO_VENTANA - altoPlataforma - 400,
-            TAMANO_ENEMIGO,
-            TAMANO_ENEMIGO,
-            ALTO_VENTANA - altoPlataforma - 430,
-            ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
+                ANCHO_PARED+270,
+                ALTO_VENTANA - altoPlataforma - 400,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
         );
         entidades.add(volador3);
         enemigosVoladores.add(volador3);
 
         EnemigoVolador volador4 = new EnemigoVolador(
-            ANCHO_PARED+375,
-            ALTO_VENTANA - altoPlataforma - 400,
-            TAMANO_ENEMIGO,
-            TAMANO_ENEMIGO,
-            ALTO_VENTANA - altoPlataforma - 430,
-            ALTO_VENTANA -altoPlataforma - 285,
-            true // true para movimiento vertical
+                ANCHO_PARED+375,
+                ALTO_VENTANA - altoPlataforma - 400,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
         );
         entidades.add(volador4);
         enemigosVoladores.add(volador4);
@@ -520,106 +623,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(new Plataforma(ANCHO_VENTANA/2-380-8, 0, 40+16, 80, false));
         objetivo = new ObjetivoFinal(ANCHO_PARED+694-240-45,120 , 40, 40);
         entidades.add(objetivo);
-    }
-
-    public void crearNivel3() {
-        // Instrucciones del nivel
-        JButton btnInstrucciones = new JButton("Encuentra el camino a la meta");
-        btnInstrucciones.setFocusable(false);
-        btnInstrucciones.setEnabled(false);
-        btnInstrucciones.setFocusPainted(false);
-        btnInstrucciones.setBackground(new Color(140, 19, 44));
-        btnInstrucciones.setForeground(Color.WHITE);
-        add(btnInstrucciones);
-
-        // Paredes laterales y techo del nivel
-        entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
-        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA, false));
-        entidades.add(new Plataforma(0, -20, ANCHO_VENTANA, 20, true));
-
-        // PUNTO DE INICIO - Plataforma de inicio (donde está el jugador - cuadrado azul, abajo a la izquierda)
-        int altoPlataforma = 25;
-        entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 60, altoPlataforma, false));
-
-        // Plataforma base inferior larga con trampas (la larga de abajo en la imagen)
-        int yBase = ALTO_VENTANA - altoPlataforma;
-        entidades.add(new Plataforma(ANCHO_PARED + 120, yBase, 600, altoPlataforma, false));
-
-        // Añadir triángulos enemigos en la plataforma base (los triángulos rojos de abajo)
-        int espacioEntreEnemigos = 110;
-        for (int x = ANCHO_PARED + 170; x < ANCHO_PARED + 700; x += espacioEntreEnemigos) {
-            entidades.add(new EnemigoEstaticoTriangulo(x, yBase - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
-        }
-        // Plataforma en la parte derecha
-        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 120, 20, 20, false));
-        //entidades.add(new PlataformaTrampolin(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 150, 30, 30, false));
-
-        // Plataforma con enemigos en el centro-derecha
-        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 130, yBase - 160, 80, 40, false));
-        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 + 100, yBase - 160, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
-
-        // Plataformas central pequeña
-        entidades.add(new PlataformaMovil(
-                ANCHO_VENTANA/2 - 50,    // posición X
-                yBase - 220,        // posición Y inicial
-                40,                 // ancho de la plataforma
-                20,                 // alto de la plataforma
-                ANCHO_VENTANA/2 - 95,  // límite izquierdo
-                ANCHO_VENTANA/2 + 50,  // límite derecho
-                1,                  // velocidad
-                false               // movimiento vertical (true)
-        ));
-        //Plataforma central a la izquierda grande
-        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 280, yBase - 220, 80, 20, false));
-        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 - 280, yBase - 249, TAMANO_ENEMIGO - 3, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
-        entidades.add(new PlataformaTrampolin(ANCHO_VENTANA/2 -250, ALTO_VENTANA-249 - altoPlataforma, 30, 30, false));
-
-        // Plataformas hasta arriba a la izquierda
-        entidades.add(new PlataformaMovil(ANCHO_VENTANA/2 - 380, yBase - 350, 40, 20, 50, 170, 2, true));
-        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 220,  yBase - 410, 40, 20,   false));
-        EnemigoVolador volador7 = new EnemigoVolador(
-                ANCHO_PARED+255,
-                ALTO_VENTANA - altoPlataforma - 400,
-                TAMANO_ENEMIGO,
-                TAMANO_ENEMIGO,
-                ALTO_VENTANA - altoPlataforma - 430,
-                ALTO_VENTANA -altoPlataforma - 285,
-                true // true para movimiento vertical
-        );
-        entidades.add(volador7);
-        enemigosVoladores.add(volador7);
-
-        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 50,  yBase - 370, 40, 20,   false));
-
-        EnemigoVolador volador6 = new EnemigoVolador(
-                ANCHO_PARED+415,
-                ALTO_VENTANA - altoPlataforma - 400,
-                TAMANO_ENEMIGO,
-                TAMANO_ENEMIGO,
-                ALTO_VENTANA - altoPlataforma - 430,
-                ALTO_VENTANA -altoPlataforma - 285,
-                true // true para movimiento vertical
-        );
-        entidades.add(volador6);
-        enemigosVoladores.add(volador6);
-
-        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 110,  yBase - 410, 40, 20,   false));
-
-
-        // Plataforma objetivo final (verde en la imagen)
-        int anchoObjetivo = 40;
-        int altoObjetivo = 40;
-        int xObjetivo = ANCHO_VENTANA/2 - 30;
-        int yObjetivo = 40;
-
-        // Plataforma que sostiene el objetivo
-        entidades.add(new Plataforma(xObjetivo + 310, yObjetivo + altoObjetivo, anchoObjetivo + 50, 10, false));
-        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 310, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
-        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 368, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
-        // Objeto objetivo final
-        objetivo = new ObjetivoFinal(xObjetivo + 338, yObjetivo, anchoObjetivo - 10, altoObjetivo);
-        entidades.add(objetivo);
-
     }
 
 

@@ -181,7 +181,6 @@ public class Jugador extends Entidad {
                 // Calcular la intersección entre el jugador y la plataforma
                 Rectangle interseccion = rectJugador.intersection(rectPlataforma);
 
-                // Colisión desde arriba
                 if (dy > 0 && rectJugador.y + rectJugador.height - dy <= rectPlataforma.y) {
                     y = rectPlataforma.y - alto;
                     dy = 0;
