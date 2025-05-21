@@ -129,6 +129,50 @@ public class Jugador extends Entidad {
                 }
             }
 
+            // Después del bloque de código para Plataforma normal y antes del bloque para PlataformaTrampolin
+            if (e instanceof PlataformaMovil && getRect().intersects(e.getRect())) {
+                PlataformaMovil plataforma = (PlataformaMovil) e;
+                Rectangle rectJugador = getRect();
+                Rectangle rectPlataforma = e.getRect();
+
+                Rectangle interseccion = rectJugador.intersection(rectPlataforma);
+
+                // Colisión desde arriba (jugador sobre la plataforma)
+                if (dy > 0 && rectJugador.y + rectJugador.height - dy <= rectPlataforma.y + 5) {
+                    y = rectPlataforma.y - alto;
+                    dy = 0;
+                    enSuelo = true;
+
+                    // Si es una plataforma vertical que se mueve hacia abajo
+                    if (plataforma.esMovimientoVertical()) {
+                        int deltaY = plataforma.getDeltaY();
+                        if (deltaY > 0) { // Si la plataforma se mueve hacia abajo
+                            y += deltaY; // Mover el jugador con la plataforma
+                        }
+                    }
+
+                    // Para el movimiento horizontal siempre ajustamos
+                    if (!plataforma.esMovimientoVertical()) {
+                        x += plataforma.getDeltaX();
+                    }
+                }
+                // Colisión desde abajo
+                else if (dy < 0 && rectJugador.y - dy >= rectPlataforma.y + rectPlataforma.height - 5) {
+                    y = rectPlataforma.y + rectPlataforma.height;
+                    dy = 0;
+                }
+                // Colisión desde la izquierda
+                else if (interseccion.height > interseccion.width &&
+                        rectJugador.x + rectJugador.width - interseccion.width <= rectPlataforma.x + 5) {
+                    x = rectPlataforma.x - ancho;
+                }
+                // Colisión desde la derecha
+                else if (interseccion.height > interseccion.width &&
+                        rectJugador.x + interseccion.width >= rectPlataforma.x + rectPlataforma.width - 5) {
+                    x = rectPlataforma.x + rectPlataforma.width;
+                }
+            }
+
             if (e instanceof PlataformaTrampolin && getRect().intersects(e.getRect())) {
                 PlataformaTrampolin plataforma = (PlataformaTrampolin) e;
                 Rectangle rectJugador = getRect();

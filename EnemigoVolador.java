@@ -13,7 +13,7 @@ public class EnemigoVolador extends Enemigo {
     }
 
     // Constructor con límites para el movimiento
-    public EnemigoVolador(int x, int y, int ancho, int alto, int limiteIzquierdo, int limiteDerecho) {
+    public EnemigoVolador(int x, int y, int ancho, int alto, int limiteIzquierdo, int limiteDerecho, boolean moverHorizontal) {
         super(x, y, ancho, alto);
         this.limiteIzquierdo = limiteIzquierdo;
         this.limiteDerecho = limiteDerecho;

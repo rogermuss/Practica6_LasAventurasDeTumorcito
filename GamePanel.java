@@ -306,7 +306,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(new PlataformaTrampolin(ANCHO_PARED + 350+70, ALTO_VENTANA - altoPlataforma - 345, 20, 20, false));
 
         EnemigoVolador volador1 = new EnemigoVolador(
-                ANCHO_PARED+630-100, 
+                ANCHO_PARED+630-100,
                 ALTO_VENTANA - altoPlataforma - 430,
                 TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
@@ -318,7 +318,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosVoladores.add(volador1);
 
         EnemigoVolador volador2 = new EnemigoVolador(
-                ANCHO_PARED+630-300, 
+                ANCHO_PARED+630-300,
                 ALTO_VENTANA - altoPlataforma - 390,
                 TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
@@ -371,12 +371,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //Plataforma alargada Superior
         entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA-150 - altoPlataforma, 694, altoPlataforma, false));
 
-        //Enemigos en orden de izquierda a derecha        
+        //Enemigos en orden de izquierda a derecha
 
         EnemigoTerrestre terrestre1 = new EnemigoTerrestre(
-                ANCHO_PARED+150, 
-                ALTO_VENTANA-40-50 - altoPlataforma, 
-                TAMANO_ENEMIGO, 
+                ANCHO_PARED+150,
+                ALTO_VENTANA-40-50 - altoPlataforma,
+                TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
                 ANCHO_PARED+300-200,
                 ANCHO_PARED+300+400,
@@ -386,9 +386,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosTerrestres.add(terrestre1);
 
         EnemigoTerrestre terrestre2 = new EnemigoTerrestre(
-                ANCHO_PARED+300, 
-                ALTO_VENTANA-40-50 - altoPlataforma, 
-                TAMANO_ENEMIGO, 
+                ANCHO_PARED+300,
+                ALTO_VENTANA-40-50 - altoPlataforma,
+                TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
                 ANCHO_PARED+300-200,
                 ANCHO_PARED+300+400,
@@ -398,9 +398,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosTerrestres.add(terrestre2);
 
         EnemigoTerrestre terrestre3 = new EnemigoTerrestre(
-                ANCHO_PARED+450, 
-                ALTO_VENTANA-40-50 - altoPlataforma, 
-                TAMANO_ENEMIGO, 
+                ANCHO_PARED+450,
+                ALTO_VENTANA-40-50 - altoPlataforma,
+                TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
                 ANCHO_PARED+300-200,
                 ANCHO_PARED+300+400,
@@ -412,12 +412,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //Plataformas de bloqueo para el enemigo terrestre
         entidades.add(new Plataforma(ANCHO_PARED+694-40, ALTO_VENTANA-150-30 - altoPlataforma, 40, 30, false));
         entidades.add(new Plataforma(ANCHO_PARED+694-250, ALTO_VENTANA-150-30 - altoPlataforma, 40, 30, false));
-        
+
         //Enemigo entre plataformas de bloqueo
         EnemigoTerrestre terrestre4 = new EnemigoTerrestre(
-                ANCHO_PARED+694-240, 
-                ALTO_VENTANA-150-50 - altoPlataforma, 
-                TAMANO_ENEMIGO, 
+                ANCHO_PARED+694-240,
+                ALTO_VENTANA-150-50 - altoPlataforma,
+                TAMANO_ENEMIGO,
                 TAMANO_ENEMIGO,
                 ANCHO_PARED+300+140,
                 ANCHO_PARED+300+400,
@@ -435,12 +435,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //AGREGAR COLECCIONABLE ===========================
 
 
-        //Tapadera alargada:         
+        //Tapadera alargada:
         entidades.add(new Plataforma(ANCHO_PARED+694-240, ALTO_VENTANA-150-40-200+30 - altoPlataforma, 30, 170-30, false));
 
         //Tapadera chica
         entidades.add(new Plataforma(ANCHO_PARED+694-240-40, ALTO_VENTANA-150-40-200-50 - altoPlataforma, 30, 100, false));
-               
+
         //Rellena comisura
         entidades.add(new Plataforma(ANCHO_PARED+694-240-40+30, ALTO_VENTANA-150-40-200+30 - altoPlataforma, 10, 20, false));
 
@@ -450,11 +450,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //Tapadera alargada superior
         entidades.add(new Plataforma(ANCHO_PARED+50, ALTO_VENTANA-275 - altoPlataforma, 414, altoPlataforma, false));
 
-        
+
 
         //Enemigos aereos
         EnemigoVolador volador1 = new EnemigoVolador(
-            ANCHO_PARED+60, 
+            ANCHO_PARED+60,
             ALTO_VENTANA - altoPlataforma - 430,
             TAMANO_ENEMIGO,
             TAMANO_ENEMIGO,
@@ -466,7 +466,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosVoladores.add(volador1);
 
         EnemigoVolador volador2 = new EnemigoVolador(
-            ANCHO_PARED+165, 
+            ANCHO_PARED+165,
             ALTO_VENTANA - altoPlataforma - 380,
             TAMANO_ENEMIGO,
             TAMANO_ENEMIGO,
@@ -478,7 +478,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosVoladores.add(volador2);
 
         EnemigoVolador volador3 = new EnemigoVolador(
-            ANCHO_PARED+270, 
+            ANCHO_PARED+270,
             ALTO_VENTANA - altoPlataforma - 400,
             TAMANO_ENEMIGO,
             TAMANO_ENEMIGO,
@@ -490,7 +490,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosVoladores.add(volador3);
 
         EnemigoVolador volador4 = new EnemigoVolador(
-            ANCHO_PARED+375, 
+            ANCHO_PARED+375,
             ALTO_VENTANA - altoPlataforma - 400,
             TAMANO_ENEMIGO,
             TAMANO_ENEMIGO,
@@ -502,9 +502,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         enemigosVoladores.add(volador4);
 
         EnemigoTerrestre terrestre5 = new EnemigoTerrestre(
-                ANCHO_PARED, 
-                ALTO_VENTANA-265, 
-                TAMANO_ENEMIGO-10, 
+                ANCHO_PARED,
+                ALTO_VENTANA-265,
+                TAMANO_ENEMIGO-10,
                 TAMANO_ENEMIGO-10,
                 ANCHO_PARED,
                 ANCHO_PARED+486,
@@ -513,7 +513,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(terrestre5);
         enemigosTerrestres.add(terrestre5);
 
-        //Slime de prueba 
+        //Slime de prueba
         entidades.add(new TerrenoSlime(ANCHO_PARED, ALTO_VENTANA-170 - altoPlataforma, 445, 22,false));
 
         //Objetivo final
@@ -522,9 +522,106 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         entidades.add(objetivo);
     }
 
-    public void crearNivel3(){
+    public void crearNivel3() {
+        // Instrucciones del nivel
+        JButton btnInstrucciones = new JButton("Encuentra el camino a la meta");
+        btnInstrucciones.setFocusable(false);
+        btnInstrucciones.setEnabled(false);
+        btnInstrucciones.setFocusPainted(false);
+        btnInstrucciones.setBackground(new Color(140, 19, 44));
+        btnInstrucciones.setForeground(Color.WHITE);
+        add(btnInstrucciones);
+
+        // Paredes laterales y techo del nivel
+        entidades.add(new Plataforma(0, 0, ANCHO_PARED, ALTO_VENTANA, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED, 0, ANCHO_PARED, ALTO_VENTANA, false));
+        entidades.add(new Plataforma(0, -20, ANCHO_VENTANA, 20, true));
+
+        // PUNTO DE INICIO - Plataforma de inicio (donde está el jugador - cuadrado azul, abajo a la izquierda)
+        int altoPlataforma = 25;
+        entidades.add(new Plataforma(ANCHO_PARED, ALTO_VENTANA - altoPlataforma, 60, altoPlataforma, false));
+
+        // Plataforma base inferior larga con trampas (la larga de abajo en la imagen)
+        int yBase = ALTO_VENTANA - altoPlataforma;
+        entidades.add(new Plataforma(ANCHO_PARED + 120, yBase, 600, altoPlataforma, false));
+
+        // Añadir triángulos enemigos en la plataforma base (los triángulos rojos de abajo)
+        int espacioEntreEnemigos = 110;
+        for (int x = ANCHO_PARED + 170; x < ANCHO_PARED + 700; x += espacioEntreEnemigos) {
+            entidades.add(new EnemigoEstaticoTriangulo(x, yBase - TAMANO_ENEMIGO, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        }
+        // Plataforma en la parte derecha
+        entidades.add(new Plataforma(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 120, 20, 20, false));
+        //entidades.add(new PlataformaTrampolin(ANCHO_VENTANA - ANCHO_PARED - 60, yBase - 150, 30, 30, false));
+
+        // Plataforma con enemigos en el centro-derecha
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 130, yBase - 160, 80, 40, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 + 100, yBase - 160, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.LEFT));
+
+        // Plataformas central pequeña
+        entidades.add(new PlataformaMovil(
+                ANCHO_VENTANA/2 - 50,    // posición X
+                yBase - 220,        // posición Y inicial
+                40,                 // ancho de la plataforma
+                20,                 // alto de la plataforma
+                ANCHO_VENTANA/2 - 95,  // límite izquierdo
+                ANCHO_VENTANA/2 + 50,  // límite derecho
+                1,                  // velocidad
+                false               // movimiento vertical (true)
+        ));
+        //Plataforma central a la izquierda grande
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 280, yBase - 220, 80, 20, false));
+        entidades.add(new EnemigoEstaticoTriangulo(ANCHO_VENTANA/2 - 280, yBase - 249, TAMANO_ENEMIGO - 3, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new PlataformaTrampolin(ANCHO_VENTANA/2 -250, ALTO_VENTANA-249 - altoPlataforma, 30, 30, false));
+
+        // Plataformas hasta arriba a la izquierda
+        entidades.add(new PlataformaMovil(ANCHO_VENTANA/2 - 380, yBase - 350, 40, 20, 50, 170, 2, true));
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 220,  yBase - 410, 40, 20,   false));
+        EnemigoVolador volador7 = new EnemigoVolador(
+                ANCHO_PARED+255,
+                ALTO_VENTANA - altoPlataforma - 400,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
+        );
+        entidades.add(volador7);
+        enemigosVoladores.add(volador7);
+
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 - 50,  yBase - 370, 40, 20,   false));
+
+        EnemigoVolador volador6 = new EnemigoVolador(
+                ANCHO_PARED+415,
+                ALTO_VENTANA - altoPlataforma - 400,
+                TAMANO_ENEMIGO,
+                TAMANO_ENEMIGO,
+                ALTO_VENTANA - altoPlataforma - 430,
+                ALTO_VENTANA -altoPlataforma - 285,
+                true // true para movimiento vertical
+        );
+        entidades.add(volador6);
+        enemigosVoladores.add(volador6);
+
+        entidades.add(new Plataforma(ANCHO_VENTANA/2 + 110,  yBase - 410, 40, 20,   false));
+
+
+        // Plataforma objetivo final (verde en la imagen)
+        int anchoObjetivo = 40;
+        int altoObjetivo = 40;
+        int xObjetivo = ANCHO_VENTANA/2 - 30;
+        int yObjetivo = 40;
+
+        // Plataforma que sostiene el objetivo
+        entidades.add(new Plataforma(xObjetivo + 310, yObjetivo + altoObjetivo, anchoObjetivo + 50, 10, false));
+        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 310, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        entidades.add(new EnemigoEstaticoTriangulo(xObjetivo + 368, yObjetivo + altoObjetivo - 30, TAMANO_ENEMIGO, TAMANO_ENEMIGO, EnemigoEstaticoTriangulo.UP));
+        // Objeto objetivo final
+        objetivo = new ObjetivoFinal(xObjetivo + 338, yObjetivo, anchoObjetivo - 10, altoObjetivo);
+        entidades.add(objetivo);
 
     }
+
 
     private void manejarColisionesParedes() {
         Rectangle jugadorRect = jugador.getRect();
@@ -565,6 +662,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         for (EnemigoTerrestre terrestre : enemigosTerrestres) {
             terrestre.verificarColisionesPersonalizado(entidades);
             terrestre.actualizar();
+        }
+
+        // Actualizar todas las plataformas móviles
+        for (Entidad entidad : entidades) {
+            if (entidad instanceof PlataformaMovil) {
+                ((PlataformaMovil) entidad).actualizar();
+            }
+        }
+
+        // SOLUCIÓN ADICIONAL: Asegurarse de que el jugador se mantenga sobre las plataformas móviles verticales
+        for (Entidad entidad : entidades) {
+            if (entidad instanceof PlataformaMovil) {
+                PlataformaMovil plataforma = (PlataformaMovil) entidad;
+                Rectangle rectJugador = jugador.getRect();
+                Rectangle rectPlataforma = entidad.getRect();
+
+                // Verificar si el jugador está sobre la plataforma
+                if (rectJugador.y + rectJugador.height <= rectPlataforma.y + 5 &&
+                        rectJugador.y + rectJugador.height >= rectPlataforma.y - 5 &&
+                        rectJugador.x + rectJugador.width > rectPlataforma.x &&
+                        rectJugador.x < rectPlataforma.x + rectPlataforma.width) {
+
+                    // El jugador está sobre la plataforma
+                    if (plataforma.esMovimientoVertical() && plataforma.getDeltaY() > 0) {
+                        // Si la plataforma es vertical y se mueve hacia abajo, ajustar Y
+                        jugador.y += plataforma.getDeltaY();
+                    }
+
+                    // Si la plataforma es horizontal, ajustar X
+                    if (!plataforma.esMovimientoVertical()) {
+                        jugador.x += plataforma.getDeltaX();
+                    }
+                }
+            }
         }
 
         jugador.verificarColisionesPersonalizado(entidades);
